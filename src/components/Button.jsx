@@ -12,12 +12,15 @@ const widthClass = {
 };
 
 export default function Button({ children, bg, color, width }) {
-  const classes = `
-  ${bg ? bgClass[bg] : ""} 
-  ${color ? colorClass[color] : ""}
-  ${width ? widthClass[width] : ""}
-  `;
+  let classes = bg ? bgClass[bg] : "";
+  classes += color ? " " + colorClass[color] : "";
+  classes += width ? " " + widthClass[width] : "";
+
   return (
     <button className={` px-3 py-1.5 rounded-md ${classes}`}>{children}</button>
   );
 }
+
+// ["bg-white", "text-black", "w-full"].join(" ") ==> "bg-white text-black w-full"
+// createClasses(..classes) => ["bg-white", , "text-black", "w-full"].join(" ")
+// createClasses(bg? bgClass[bg]: '', color? colorClass[color]: '', width? widthClass[width]: "")
