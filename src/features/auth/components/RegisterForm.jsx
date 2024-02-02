@@ -7,19 +7,36 @@ import ErrorMessage from "../../../components/ErrorMessage";
 export default function RegisterForm({ onSuccess }) {
   const [input, setInput] = useState({}); //{firstName : 'aaa'}
   const [error, setError] = useState({
-    firstName: "Please fill your first name",
-    lastName: "Please fill your last name",
-    emailOrMobile: "Please fill your email address or mobile number",
-    password: "Please fill your password",
-    confirmPassword: "Please fill your confirm password",
+    firstName: "",
+    lastName: "",
+    emailOrMobile: "",
+    password: "",
+    confirmPassword: "",
   });
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const { value, error } = registerSchema.validate(input, {
       abortEarly: false,
     });
-    console.log(error);
-    onSuccess();
+    // console.log(error);
+    if (error) {
+      const submitError = {};
+      console.log(error.details);
+      error.details.forEach((detail) => {
+        const key = detail.path[0];
+        submitError[key] = detail.message;
+      });
+      setError((prev) => ({ ...prev, ...submitError }));
+    } else {
+      setError({
+        firstName: "",
+        lastName: "",
+        emailOrMobile: "",
+        password: "",
+        confirmPassword: "",
+      });
+      onSuccess();
+    }
   };
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
