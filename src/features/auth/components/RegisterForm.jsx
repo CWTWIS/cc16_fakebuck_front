@@ -21,7 +21,7 @@ export default function RegisterForm({ onSuccess }) {
     if (validateError) {
       return setError(validateError);
     }
-    // onSuccess()
+    onSuccess();
   };
   const handleChangeInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
