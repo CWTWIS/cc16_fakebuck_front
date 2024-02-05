@@ -3,6 +3,7 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import validateRegister from "../validations/validate-register";
 import useAuth from "../../../hook/use-auth";
+import { toast } from "react-toastify";
 
 const initial = {
   firstName: "",
@@ -26,13 +27,15 @@ export default function RegisterForm({ onSuccess }) {
         return setError(validateError);
       }
       await register(input);
+      toast.success("register successfully");
       onSuccess();
     } catch (err) {
       if (err.response?.data.message === "EMAIL_MOBILE_IN_USE") {
-        setError({
+        return setError({
           emailOrMobile: "email address or mobile number already in use",
         });
       }
+      toast.error("Internal server error");
     }
   };
   const handleChangeInput = (e) => {
