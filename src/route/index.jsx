@@ -6,8 +6,8 @@ import ProfilePage from "../pages/ProfilePage";
 import RedirectIfAuthenticated from "../features/auth/components/RedirectedIfAuthenticated";
 import ProtectedRoute from "../features/auth/components/ProtectedRoute";
 import Spinner from "../components/Spinner";
+import Container from "../layouts/Container";
 const router = createBrowserRouter([
-  { path: "/spinner", element: <Spinner /> },
   {
     path: "/login",
     element: (
@@ -20,8 +20,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <ProtectedRoute>
-        <header>Main Header</header>
-        <Outlet />
+        <Container />
       </ProtectedRoute>
     ),
     children: [
