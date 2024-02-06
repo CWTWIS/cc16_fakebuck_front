@@ -1,10 +1,14 @@
 import { toast, ToastContainer, Slide } from "react-toastify";
 import Router from "./route";
+import useAuth from "./hook/use-auth";
+import Spinner from "./components/Spinner";
 
 function App() {
+  const { initialLoading } = useAuth();
+  if (initialLoading) return <Spinner />;
   return (
     <>
-      <Router />;
+      <Router />
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
