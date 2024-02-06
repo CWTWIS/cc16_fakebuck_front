@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Avatar from "../components/Avatar";
 import { RightFromBracketIcon } from "../icons";
 
 export default function Dropdown() {
   const [open, setOpen] = useState(false);
+
+  document.addEventListener("click", () => {
+    console.log("Click document");
+    setOpen(false);
+  });
+
+  const localRef = { current: 0 };
+  const ref = useRef(0); //ref = {current: undefined}
+  console.log("localRef", localRef);
+  console.log("Ref", ref);
   return (
     <div className="relative">
       <div role="button" onClick={() => setOpen(!open)}>
         <Avatar />
       </div>
+      <button
+        onClick={() => {
+          ref.current = ref.current + 1;
+          localRef.current = localRef.current + 1;
+          setOpen(!open);
+        }}
+      >
+        Click
+      </button>
       {open && (
         <div className="absolute right-0 translate-y-1.5">
           <div className="w-96 bg-white rounded-lg shadow-[0_0_2px_rgb(0,0,0,0.2)] p-2">
