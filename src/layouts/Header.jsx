@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { FacebookIcon } from "../icons/index";
 import Menu from "./Menu";
+import Dropdown from "./Dropdown";
 
 export default function Header() {
   return (
-    <header className="grid grid-cols-3 bg-white shadow">
+    <header className="grid grid-cols-3 bg-white shadow items-center px-4">
       <div className="justify-self-start">
         <Link to="/">
           <FacebookIcon />
@@ -13,7 +14,9 @@ export default function Header() {
       <div>
         <Menu />
       </div>
-      <div className="">Dropdown</div>
+      <div className="justify-self-end">
+        <Dropdown />
+      </div>
     </header>
   );
 }
