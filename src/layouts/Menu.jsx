@@ -27,12 +27,6 @@ export default function Menu() {
           active={pathname === el.to}
         />
       ))}
-      {/* <MenuItem active={pathname === "/"} Icon={HouseIcon} to="/"></MenuItem>
-      <MenuItem
-        active={pathname === "/friend"}
-        Icon={UserGroupIcon}
-        to="/friend"
-      ></MenuItem> */}
     </nav>
   );
 }
