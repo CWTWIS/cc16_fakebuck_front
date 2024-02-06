@@ -6,7 +6,7 @@ export default function Avatar({ src, size = 2.5 }) {
       src={src || profileImg}
       alt="user"
       className="rounded-full"
-      style={{ width: `${size}rem` }}
+      style={{ width: `${size}rem`, height: `${size}rem` }}
     />
   );
 }
