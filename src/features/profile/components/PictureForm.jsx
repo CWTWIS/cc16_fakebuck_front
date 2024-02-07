@@ -1,15 +1,27 @@
 import { useRef, useState } from "react";
 import FormButton from "./FormButton";
+import Spinner from "../../../components/Spinner";
+import { toast } from "react-toastify";
 
 export default function PictureForm({ title, children, initialSrc, onSave }) {
   const fileEl = useRef();
   const [file, setFile] = useState(null);
-  const handleClickSave = () => {
-    onSave(file);
+  const [loading, setLoading] = useState(false);
+
+  const handleClickSave = async () => {
+    try {
+      setLoading(true);
+      await onSave(file);
+    } catch (err) {
+      toast.error(err.response?.data.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
+      {loading && <Spinner />}
       <input
         type="file"
         className="hidden"

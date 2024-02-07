@@ -9,15 +9,15 @@ export default function EditProfileForm() {
     authUser: { profileImage, coverImage },
   } = useAuth();
 
-  const updateProfileImage = (file) => {
+  const updateProfileImage = async (file) => {
     const formData = new FormData(); //object key ===> value
     formData.append("profileImage", file); //{profileImage: file}
-    updateUser(formData);
+    await updateUser(formData);
   };
-  const updateCoverImage = (file) => {
+  const updateCoverImage = async (file) => {
     const formData = new FormData(); //object key ===> value
     formData.append("coverImage", file); //{profileImage: file}
-    updateUser(formData);
+    await updateUser(formData);
   };
 
   return (

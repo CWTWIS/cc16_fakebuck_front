@@ -46,6 +46,7 @@ export default function AuthContextProvider({ children }) {
 
   const updateUser = async (user) => {
     const res = await userApi.updateUser(user);
+    setAuthUser((prev) => ({ ...prev, ...res.data }));
   };
   return (
     <AuthContext.Provider
