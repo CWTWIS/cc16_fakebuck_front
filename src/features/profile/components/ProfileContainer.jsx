@@ -11,7 +11,7 @@ export default function ProfileContainer() {
   } = useProfile();
   return (
     <div className="bg-gradient-to-b from-gray-300 to-white shadow">
-      <CoverImage src={coverImage} />
+      <CoverImage src={coverImage} rounded="bottom" />
 
       <div className="max-w-[68.5rem] px-8 flex flex-col items-center gap-4 sm:flex-row sm:items-end pb-4">
         <div className="-mt-20 sm:-mt-5">
