@@ -34,8 +34,7 @@ export default function ProfileContextProvider({ children }) {
     },
   ]);
 
-  const [relationshipToAuthUser, setRelationshipToAuthUser] =
-    useState("UNKNOWN");
+  const [relationshipToAuthUser, setRelationshipToAuthUser] = useState("ME");
   return (
     <ProfileContext.Provider
       value={{ profileUser, profileUserFriends, relationshipToAuthUser }}
