@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
 import FormButton from "./FormButton";
 
-export default function PictureForm({ title, children }) {
+export default function PictureForm({ title, children, initialSrc, onSave }) {
   const fileEl = useRef();
   const [file, setFile] = useState(null);
+  const handleClickSave = () => {
+    onSave(file);
+  };
 
   return (
     <div>
@@ -22,7 +25,7 @@ export default function PictureForm({ title, children }) {
         <div>
           {file && (
             <>
-              <FormButton>Save</FormButton>
+              <FormButton onClick={handleClickSave}>Save</FormButton>
               <FormButton
                 onClick={() => {
                   setFile(null);
@@ -37,7 +40,7 @@ export default function PictureForm({ title, children }) {
         </div>
       </div>
       <div className="flex justify-center pb-4">
-        {children(file ? URL.createObjectURL(file) : undefined)}
+        {children(file ? URL.createObjectURL(file) : initialSrc)}
       </div>
     </div>
   );
