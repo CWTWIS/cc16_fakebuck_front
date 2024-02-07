@@ -1,16 +1,10 @@
 import { useRef, useState } from "react";
-import Avatar from "../../../components/Avatar";
 import FormButton from "./FormButton";
-
-// const file = document.getElementById("file");
-// file.click
 
 export default function PictureForm({ title, children }) {
   const fileEl = useRef();
   const [file, setFile] = useState(null);
-  const render = (src) => (
-    <Avatar size={10.5} src={file ? URL.createObjectURL(file) : undefined} />
-  );
+
   return (
     <div>
       <input
@@ -42,7 +36,9 @@ export default function PictureForm({ title, children }) {
           <FormButton onClick={() => fileEl.current.click()}>Edit</FormButton>
         </div>
       </div>
-      <div className="flex justify-center pb-4">{render()}</div>
+      <div className="flex justify-center pb-4">
+        {children(file ? URL.createObjectURL(file) : undefined)}
+      </div>
     </div>
   );
 }
