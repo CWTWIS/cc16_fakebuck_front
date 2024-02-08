@@ -7,6 +7,7 @@ import { updateUser } from "../../../api/user";
 export default function EditProfileForm() {
   const {
     authUser: { profileImage, coverImage },
+    updateUser,
   } = useAuth();
 
   const updateProfileImage = async (file) => {

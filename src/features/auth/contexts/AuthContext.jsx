@@ -12,7 +12,6 @@ export default function AuthContextProvider({ children }) {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
-    console.log(getToken());
     if (getToken()) {
       authApi
         .fetchMe()
@@ -37,7 +36,7 @@ export default function AuthContextProvider({ children }) {
 
   const login = async (credential) => {
     const res = await authApi.login(credential);
-    setAuthUser(res.data);
+    setAuthUser(res.data.user);
     storeToken(res.data.accessToken);
   };
 

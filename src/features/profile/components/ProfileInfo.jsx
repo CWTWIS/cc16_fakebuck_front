@@ -13,10 +13,10 @@ export default function ProfileInfo() {
         {firstName} {lastName}
       </h5>
       <span className="text-gray-500 font-medium">
-        {profileUserFriends?.length} Friends
+        {profileUserFriends.length} Friends
       </span>
       <div className="flex -space-x-2">
-        {profileUserFriends?.map((el) => (
+        {profileUserFriends.map((el) => (
           <Link key={el.id} to={`/profile/${el.id}`}>
             <Avatar key={el.id} size={2} src={el.profileImage} />
           </Link>
