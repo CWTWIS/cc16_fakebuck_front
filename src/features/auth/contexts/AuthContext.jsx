@@ -12,10 +12,12 @@ export default function AuthContextProvider({ children }) {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
+    console.log(getToken());
     if (getToken()) {
       authApi
         .fetchMe()
         .then((res) => {
+          console.log(res.data);
           setAuthUser(res.data.user);
         })
         .catch((err) => {

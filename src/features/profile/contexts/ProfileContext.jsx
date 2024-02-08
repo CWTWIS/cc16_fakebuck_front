@@ -1,43 +1,81 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import * as userApi from "../../../api/user";
+import { useParams } from "react-router-dom";
+import * as relationshipApi from "../../../api/relationship";
+import { RELATIONSHIP_TO_AUTH_USER } from "../../../constant";
+import useAuth from "../../../hook/use-auth";
 
 export const ProfileContext = createContext();
 
 export default function ProfileContextProvider({ children }) {
-  const [profileUser, setProfileUser] = useState({
-    id: 1,
-    firstName: "Jim",
-    lastName: "Bonne",
-    profileImage:
-      "https://images.pexels.com/photos/18049017/pexels-photo-18049017/free-photo-of-sunflowers-blooming-in-countryside.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    coverImage:
-      "https://images.pexels.com/photos/18364792/pexels-photo-18364792/free-photo-of-star-trails-over-the-desert.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  });
+  const [profileUser, setProfileUser] = useState({});
+  const [profileUserFriends, setProfileUserFriends] = useState([]);
+  const [relationshipToAuthUser, setRelationshipToAuthUser] = useState("");
 
-  const [profileUserFriends, setProfileUserFriends] = useState([
-    {
-      id: 1,
-      firstName: "Jones",
-      lastName: "Bonne",
-      profileImage:
-        "https://images.pexels.com/photos/19004684/pexels-photo-19004684/free-photo-of-model-in-sunglasses-and-leather-jacket.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      coverImage:
-        "https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      id: 6,
-      firstName: "James",
-      lastName: "Bonne",
-      profileImage:
-        "https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      coverImage:
-        "https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-  ]);
+  // params
+  const { userId } = useParams();
+  const { authUser } = useAuth();
 
-  const [relationshipToAuthUser, setRelationshipToAuthUser] = useState("ME");
+  const requestFriend = async () => {
+    await relationshipApi.requestFriend(userId);
+    setRelationshipToAuthUser(RELATIONSHIP_TO_AUTH_USER.RECEIVER);
+  };
+
+  const confirmRequest = async () => {
+    await relationshipApi.confirmRequest(userId);
+    setRelationshipToAuthUser(RELATIONSHIP_TO_AUTH_USER.FRIEND);
+    setProfileUserFriends((prev) => [...prev, authUser]);
+  };
+
+  const rejectRequest = async () => {
+    await relationshipApi.rejectRequest(userId);
+    setRelationshipToAuthUser(RELATIONSHIP_TO_AUTH_USER.UNKNOWN);
+  };
+
+  const cancelRequest = async () => {
+    await relationshipApi.cancelRequest(userId);
+    setRelationshipToAuthUser(RELATIONSHIP_TO_AUTH_USER.UNKNOWN);
+  };
+
+  const unfriend = async () => {
+    await relationshipApi.unfriend(userId);
+    setRelationshipToAuthUser(RELATIONSHIP_TO_AUTH_USER.UNKNOWN);
+    setProfileUserFriends((prev) => prev.filter((el) => el.id !== authUser.id));
+  };
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await userApi.getTargetUserProfile(userId);
+        console.log(res.data);
+        setProfileUser(res.data.profileUser);
+        setProfileUserFriends(res.data.profileUserFriends);
+        setRelationshipToAuthUser(res.data.relationshipToAuthUser);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
+
+  useEffect(() => {
+    if (+userId === authUser.id) {
+      setProfileUser(authUser);
+    }
+  }, [authUser, userId]);
+
   return (
     <ProfileContext.Provider
-      value={{ profileUser, profileUserFriends, relationshipToAuthUser }}
+      value={{
+        profileUser,
+        profileUserFriends,
+        relationshipToAuthUser,
+        requestFriend,
+        confirmRequest,
+        rejectRequest,
+        cancelRequest,
+        unfriend,
+      }}
     >
       {children}
     </ProfileContext.Provider>

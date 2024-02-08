@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 
 export default function Dropdown() {
   const [open, setOpen] = useState(false);
+
   const dropDownEl = useRef(null); // {current: null}
+
   const {
     authUser: { profileImage, firstName, lastName, id },
     logout,
