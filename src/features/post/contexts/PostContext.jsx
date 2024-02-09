@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import * as PostApi from "../../../api/post";
-import { toast } from "react-toastify";
+import * as postApi from "../../../api/post";
+import * as likeApi from "../../../api/like";
 
 export const PostContext = createContext();
 
@@ -8,16 +8,21 @@ export default function PostContextProvider({ children }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    PostApi.getAllPostIncludeFriendPost().then((res) =>
-      setPosts(res.data.posts).catch((err) => console.log(err))
-    );
+    postApi
+      .getAllPostIncludeFriendPost()
+      .then((res) => setPosts(res.data.posts))
+      .catch((err) => console.log(err));
   }, []);
+
   const createPost = async (formData) => {
-    await PostApi.createPost(formData);
-    // toast.success("create a new post success");
+    await postApi.createPost(formData);
+  };
+
+  const toggleLike = async (postId) => {
+    await likeApi.toggleLike(postId);
   };
   return (
-    <PostContext.Provider value={{ createPost, posts }}>
+    <PostContext.Provider value={{ createPost, posts, toggleLike }}>
       {children}
     </PostContext.Provider>
   );
