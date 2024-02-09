@@ -3,7 +3,7 @@ export default function Modal({ title, children, onClose, width }) {
     <>
       <div className="fixed bg-white inset-0 opacity-70"></div>
       <div className="fixed inset-0">
-        <div className="flex items-center justify-center min-h-full">
+        <div className="flex items-center justify-center min-h-full py-8">
           <div
             className="bg-white rounded-lg shadow-[0_0_15px_rgb(0,0,0,0.2)]"
             style={{ width: `${width}rem` }}
@@ -13,7 +13,9 @@ export default function Modal({ title, children, onClose, width }) {
               <div className="text-3xl font-semibold">{title}</div>
               <button onClick={onClose}>&#10005;</button>
             </div>
-            <div>{children}</div>
+            <div className="max-h-[calc(100vh-10rem)] overflow-auto">
+              {children}
+            </div>
           </div>
         </div>
       </div>

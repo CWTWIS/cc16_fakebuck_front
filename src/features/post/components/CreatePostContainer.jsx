@@ -4,14 +4,24 @@ import { useState } from "react";
 import Modal from "../../../components/Modal";
 import useAuth from "../../../hook/use-auth";
 import PostForm from "./PostForm";
+import usePost from "../../../hook/use-post";
 
 export default function CreatePostContainer() {
   const [open, setOpen] = useState(false);
+
   const {
     authUser: { id, profileImage, firstName },
   } = useAuth();
+
+  const { createPost } = usePost();
+
+  const submitPostForm = async (formData) => {
+    await createPost(formData);
+    setOpen(false);
+  };
+
   return (
-    <div className="flex gap-2 bg-white px-4 py-3 rounded-lg">
+    <div className="flex gap-2 bg-white px-4 py-3 rounded-lg shadow">
       <Link to={`/profile/${id}`} className="shrink-0">
         <Avatar src={profileImage} />
       </Link>
@@ -23,7 +33,7 @@ export default function CreatePostContainer() {
       </button>
       {open && (
         <Modal title="Create post" onClose={() => setOpen(false)} width={32}>
-          <PostForm></PostForm>
+          <PostForm onSubmit={submitPostForm} />
         </Modal>
       )}
     </div>
