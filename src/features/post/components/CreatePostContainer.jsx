@@ -4,7 +4,7 @@ import { useState } from "react";
 import Modal from "../../../components/Modal";
 import useAuth from "../../../hook/use-auth";
 import PostForm from "./PostForm";
-import usePost from "../../../hook/use-post";
+import usePost from "../hook/use-post";
 
 export default function CreatePostContainer() {
   const [open, setOpen] = useState(false);
